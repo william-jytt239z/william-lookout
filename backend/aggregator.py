@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """
 William 瞭望台 - RSS 聚合器
-抓取多个头部平台的 RSS，生成 JSON 数据
+抓取多个头部平台的 RSS，提取真实图片，生成 JSON 数据
 """
 
 import json
 import feedparser
 import hashlib
+import re
 from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Optional
@@ -65,10 +66,40 @@ class RSSAggregator:
         return datetime.now().strftime('%Y-%m-%d')
     
     def clean_html(self, html: str) -> str:
-        import re
         text = re.sub(r'<[^>]+>', '', html)
         text = re.sub(r'\s+', ' ', text).strip()
         return text[:200] + '...' if len(text) > 200 else text
+    
+    def extract_image(self, entry: Dict) -> Optional[str]:
+        """从 RSS entry 中提取图片 URL"""
+        # 方法 1: RSS 的 media:content
+        if 'media_content' in entry and entry['media_content']:
+            for media in entry['media_content']:
+                if 'url' in media:
+                    return media['url']
+        
+        # 方法 2: RSS 的 media_thumbnail
+        if 'media_thumbnail' in entry and entry['media_thumbnail']:
+            return entry['media_thumbnail'][0].get('url')
+        
+        # 方法 3: 从 summary/content 中提取 <img>
+        content = entry.get('summary', '') or entry.get('description', '') or entry.get('content', [{}])[0].get('value', '')
+        if content:
+            # 查找 <img src="...">
+            img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content, re.IGNORECASE)
+            if img_match:
+                url = img_match.group(1)
+                # 确保是绝对 URL
+                if url.startswith('http'):
+                    return url
+        
+        # 方法 4: 从 enclosures 中提取
+        if 'enclosures' in entry and entry['enclosures']:
+            for enc in entry['enclosures']:
+                if enc.get('type', '').startswith('image/'):
+                    return enc.get('href')
+        
+        return None
     
     def fetch_feed(self, source_name: str, config: Dict) -> List[Dict]:
         items = []
@@ -85,6 +116,9 @@ class RSSAggregator:
                     logger.warning(f"{source_name} 解析警告: {feed.bozo_exception}")
                 
                 for entry in feed.entries[:5]:  # 每个源取前5条
+                    # 提取图片
+                    image_url = self.extract_image(entry)
+                    
                     news_item = {
                         'id': self.generate_id(entry.get('title', ''), source_name),
                         'title': entry.get('title', ''),
@@ -92,9 +126,15 @@ class RSSAggregator:
                         'date': self.parse_date(entry.get('published_parsed') or entry.get('updated_parsed')),
                         'summary': self.clean_html(entry.get('summary', '') or entry.get('description', '')),
                         'url': entry.get('link', ''),
-                        'category': config['category']
+                        'category': config['category'],
+                        'imageUrl': image_url  # 可能为 None
                     }
                     items.append(news_item)
+                    
+                    if image_url:
+                        logger.info(f"  ✅ 找到图片: {image_url[:60]}...")
+                    else:
+                        logger.info(f"  ⚠️ 无图片")
                 
                 if items:
                     logger.info(f"✅ {source_name}: 成功抓取 {len(items)} 条")
@@ -116,7 +156,9 @@ class RSSAggregator:
         # 按日期排序（最新的在前）
         self.news_items.sort(key=lambda x: x['date'], reverse=True)
         
-        logger.info(f"📊 共聚合 {len(self.news_items)} 条新闻")
+        # 统计
+        with_images = sum(1 for item in self.news_items if item['imageUrl'])
+        logger.info(f"📊 共聚合 {len(self.news_items)} 条新闻，其中 {with_images} 条有图片")
     
     def save_json(self, filename: str = 'top-news.json'):
         output_path = self.output_dir / filename
@@ -124,6 +166,7 @@ class RSSAggregator:
         data = {
             'updated_at': datetime.now().isoformat(),
             'total': len(self.news_items),
+            'with_images': sum(1 for item in self.news_items if item['imageUrl']),
             'items': self.news_items
         }
         
