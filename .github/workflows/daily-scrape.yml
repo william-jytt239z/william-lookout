@@ -51,12 +51,21 @@ jobs:
           cd backend
           python aggregator.py
         shell: pwsh
+        
+    - name: Sync data to frontend
+      run: |
+        # 将抓取的数据同步到前端目录，确保 Vercel 部署时显示最新内容
+        Copy-Item -Path "backend/data/top-news.json" -Destination "frontend/public/data/top-news.json" -Force
+        Write-Host "✅ 数据已同步到 frontend/public/data/"
+        Get-Content "frontend/public/data/top-news.json" | Select-Object -First 20
+      shell: pwsh
       
     - name: Commit and push changes
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add backend/data/top-news.json
+        git add frontend/public/data/top-news.json
         git diff --staged --quiet || git commit -m "🔄 Auto-update news: $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
         git push
       env:
