@@ -1,14 +1,18 @@
 {
-  "updated_at": "2026-03-19T13:38:06.923498",
-  "total": 5,
-  "with_images": 5,
+  "updated_at": "2026-03-19T17:42:01.507931",
+  "total": 11,
+  "with_images": 10,
+  "sources": [
+    "CJ Affiliate",
+    "impact.com"
+  ],
   "items": [
     {
       "id": "26c7ec23",
       "title": "Hakan Özal Joins impact.com to Drive Enterprise Partnership Growth in DACH",
       "source": "impact.com",
       "date": "2026-03-17",
-      "summary": "Partnership marketing platform strengthens its approach in the German-speaking region, helping brands integrate cross-channel partnerships, with a focus on financial services London, UK &#8211; 16th M...",
+      "summary": "Partnership marketing platform strengthens its approach in the German-speaking region, helping brands integrate cross-channel partnerships, with a focus on financial services London, UK – 16th March, ...",
       "url": "https://impact.com/press-releases/impact-com-hakan-ozal-dach-enterprise/",
       "category": "top",
       "imageUrl": "https://impact.com/wp-content/uploads/2022/05/Impact-Press-release.png"
@@ -22,6 +26,17 @@
       "url": "https://impact.com/affiliate/affiliate-travel-marketing/",
       "category": "top",
       "imageUrl": "https://impact.com/wp-content/uploads/2026/03/travel-marketing-trends.webp"
+    },
+    {
+      "id": "cj_8187662",
+      "title": "Plug into Growth with CJ's Ecommerce Plugins",
+      "source": "CJ Affiliate",
+      "date": "2026-03-16",
+      "summary": "Brands are always looking for easy ways to expand their global reach and tap into opportunities. This is why we’ve partnered with top platforms such ... Innovation ,",
+      "url": "https://junction.cj.com/most-recent",
+      "category": "top",
+      "imageUrl": null,
+      "tags": []
     },
     {
       "id": "4983dfec",
@@ -52,6 +67,56 @@
       "url": "https://impact.com/partnerships/affiliate-marketing-scams/",
       "category": "top",
       "imageUrl": "https://impact.com/wp-content/uploads/2026/03/affiliate-marketing-scams.webp"
+    },
+    {
+      "id": "8ad2bdba",
+      "title": "5 social commerce examples in action: How real brands turn smart social strategies into sales",
+      "source": "impact.com",
+      "date": "2026-03-02",
+      "summary": "Most brands treat social commerce as a content problem. These five examples show why the real lever is the structure underneath and how to build one. The post 5 social commerce examples in action: How...",
+      "url": "https://impact.com/influencer/social-commerce-examples/",
+      "category": "top",
+      "imageUrl": "https://impact.com/wp-content/uploads/2026/03/social-commerce-2-1.webp"
+    },
+    {
+      "id": "0779c35d",
+      "title": "Micro-influencer marketing: How to partner with smaller content creators in 2026",
+      "source": "impact.com",
+      "date": "2026-02-25",
+      "summary": "Creators with smaller followings can often drive major results. Learn how to work with nano- and micro-influencers to drive authentic connections and measurable ROI. The post Micro-influencer marketin...",
+      "url": "https://impact.com/influencer/work-with-micro-influencers/",
+      "category": "top",
+      "imageUrl": "https://impact.com/wp-content/uploads/2024/03/Micro-influencer-marketing.webp"
+    },
+    {
+      "id": "6d085c71",
+      "title": "Shoppers click more, buy less: impact.com reveals retail brands’ 2026 strategy shift",
+      "source": "impact.com",
+      "date": "2026-02-13",
+      "summary": "The post Shoppers click more, buy less: impact.com reveals retail brands’ 2026 strategy shift appeared first on impact.com.",
+      "url": "https://impact.com/?bylines=shoppers-click-more-buy-less-impact-com-reveals-retail-brands-2026-strategy-shift",
+      "category": "top",
+      "imageUrl": "https://impact.com/wp-content/uploads/2022/02/MarComm-News-logo.png"
+    },
+    {
+      "id": "eb9bc993",
+      "title": "The 2025 affiliate benchmark: Shoppers bought less often but spent more per order",
+      "source": "impact.com",
+      "date": "2026-02-09",
+      "summary": "Shoppers in 2025 took longer to research but compressed purchases into shorter windows—clicking 2% more but converting 6% less while keeping spending nearly flat. Programs that match partner strategy ...",
+      "url": "https://impact.com/affiliate/affiliate-marketing-benchmark/",
+      "category": "top",
+      "imageUrl": "https://impact.com/wp-content/uploads/2026/02/Shoppers-bought-less.webp"
+    },
+    {
+      "id": "9134bd29",
+      "title": "How to find affiliate marketing partners at scale through AI-powered discovery",
+      "source": "impact.com",
+      "date": "2026-02-05",
+      "summary": "The best affiliate programs build a system for success. Learn to transform your past performance into a scalable recruitment engine with AI-powered lookalike modeling. It's time to build a high-perfor...",
+      "url": "https://impact.com/partnerships/how-to-find-affiliate-marketing-partners/",
+      "category": "top",
+      "imageUrl": "https://impact.com/wp-content/uploads/2026/02/AI-powered-discovery.webp"
     }
   ]
 }
