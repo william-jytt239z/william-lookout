@@ -13,7 +13,9 @@ function App() {
 
   // 加载真实 RSS 数据
   useEffect(() => {
-    fetch('/data/top-news.json')
+    // 添加随机参数绕过缓存
+    const cacheBuster = `?t=${Date.now()}`;
+    fetch(`/data/top-news.json${cacheBuster}`)
       .then(res => res.json())
       .then(data => {
         setRssData(data.items || []);
