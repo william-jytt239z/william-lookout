@@ -67,6 +67,13 @@ jobs:
         npm run build
         Write-Host "✅ 前端构建完成"
       shell: pwsh
+
+    - name: Sync dist to root for Vercel deployment
+      run: |
+        # 将构建好的文件复制到根目录，确保 Vercel 正确部署
+        Copy-Item -Path "frontend/dist/*" -Destination "." -Recurse -Force
+        Write-Host "✅ 构建文件已同步到根目录"
+      shell: pwsh
       
     - name: Commit and push changes
       run: |
@@ -75,6 +82,7 @@ jobs:
         git add backend/data/top-news.json
         git add frontend/public/data/top-news.json
         git add frontend/dist/ -f
+        git add assets/ data/ index.html deploy-time.txt vercel.json -f 2>$null || true
         git diff --staged --quiet || git commit -m "🔄 Auto-update news: $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
         git push
       env:
