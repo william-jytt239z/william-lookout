@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { CATEGORIES, CategoryType } from './types/news';
 import { MOCK_NEWS } from './data/news';
 import Navbar from './components/Navbar';
