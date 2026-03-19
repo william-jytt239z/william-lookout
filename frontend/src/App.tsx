@@ -1,33 +1,73 @@
-import { useState, useMemo } from 'react';
-import { CATEGORIES, CategoryType } from './types/news';
+import { useState, useMemo, useEffect } from 'react';
+import { CATEGORIES, CategoryType, NewsItem } from './types/news';
 import { MOCK_NEWS } from './data/mockNews';
 import Navbar from './components/Navbar';
 import SearchBar from './components/SearchBar';
 import NewsCard from './components/NewsCard';
 
 function App() {
-  const [activeTab, setActiveTab] = useState<CategoryType>('breaking');
+  const [activeTab, setActiveTab] = useState<CategoryType>('top');
   const [searchKeyword, setSearchKeyword] = useState('');
+  const [rssData, setRssData] = useState<NewsItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  // 加载真实 RSS 数据
+  useEffect(() => {
+    fetch('/data/top-news.json')
+      .then(res => res.json())
+      .then(data => {
+        setRssData(data.items || []);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error('加载 RSS 数据失败:', err);
+        setLoading(false);
+      });
+  }, []);
+
+  // 合并数据：RSS 数据 + Mock 数据
+  const allNews = useMemo(() => {
+    // RSS 数据优先，去重
+    const rssUrls = new Set(rssData.map(n => n.url));
+    const uniqueMockNews = MOCK_NEWS.filter(n => !rssUrls.has(n.url));
+    return [...rssData, ...uniqueMockNews];
+  }, [rssData]);
 
   const currentCategory = CATEGORIES.find(cat => cat.id === activeTab)!;
 
   const filteredNews = useMemo(() => {
-    const categoryNews = MOCK_NEWS.filter(news => news.category === activeTab);
+    const categoryNews = allNews.filter(news => news.category === activeTab);
+    
+    // 按日期排序（最新的在前）
+    const sortedNews = categoryNews.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
     
     if (!searchKeyword.trim()) {
-      return categoryNews;
+      return sortedNews;
     }
     
     const keyword = searchKeyword.toLowerCase();
-    return categoryNews.filter(news => 
+    return sortedNews.filter(news => 
       news.title.toLowerCase().includes(keyword) ||
       news.summary.toLowerCase().includes(keyword) ||
       news.source.toLowerCase().includes(keyword)
     );
-  }, [activeTab, searchKeyword]);
+  }, [activeTab, searchKeyword, allNews]);
 
   const featuredNews = filteredNews[0];
   const regularNews = filteredNews.slice(1);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#0a0a0a] text-[#fafafa] flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-8 h-8 border-2 border-[#ff6b35] border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-[#888888]">加载中...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-[#fafafa]">
@@ -73,8 +113,7 @@ function App() {
           </div>
         ) : (
           <div className="text-center py-20">
-            <p className="text-[#888888] text-xl">没有找到相关新闻</p>
-            <p className="text-[#888888]/60 mt-2">请尝试其他关键词</p>
+            <p className="text-[#888888] text-xl">暂无相关新闻</p>
           </div>
         )}
       </main>
