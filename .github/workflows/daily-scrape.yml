@@ -57,7 +57,15 @@ jobs:
         # 将抓取的数据同步到前端目录，确保 Vercel 部署时显示最新内容
         Copy-Item -Path "backend/data/top-news.json" -Destination "frontend/public/data/top-news.json" -Force
         Write-Host "✅ 数据已同步到 frontend/public/data/"
-        Get-Content "frontend/public/data/top-news.json" | Select-Object -First 20
+      shell: pwsh
+      
+    - name: Build frontend
+      run: |
+        # 安装前端依赖并构建
+        cd frontend
+        npm install
+        npm run build
+        Write-Host "✅ 前端构建完成"
       shell: pwsh
       
     - name: Commit and push changes
@@ -66,6 +74,7 @@ jobs:
         git config --local user.name "GitHub Action"
         git add backend/data/top-news.json
         git add frontend/public/data/top-news.json
+        git add frontend/dist/ -f
         git diff --staged --quiet || git commit -m "🔄 Auto-update news: $(Get-Date -Format 'yyyy-MM-dd HH:mm')"
         git push
       env:
