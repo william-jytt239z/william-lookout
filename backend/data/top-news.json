@@ -1,12 +1,23 @@
 {
-  "updated_at": "2026-03-19T17:42:01.507931",
-  "total": 11,
+  "updated_at": "2026-03-19T19:58:52.834629",
+  "total": 14,
   "with_images": 10,
   "sources": [
-    "CJ Affiliate",
-    "impact.com"
+    "impact.com",
+    "CJ Affiliate"
   ],
   "items": [
+    {
+      "id": "cj_1123292",
+      "title": "CJ + Global Tech Brand + tvScientific = 50X ROAS",
+      "source": "CJ Affiliate",
+      "date": "2026-03-19",
+      "summary": "TV has always had a trust problem. It reaches people. It builds brands. But when someone asks, “What did it drive?” the room gets real quiet. A ...",
+      "url": "https://junction.cj.com/most-recent",
+      "category": "top",
+      "imageUrl": null,
+      "tags": []
+    },
     {
       "id": "26c7ec23",
       "title": "Hakan Özal Joins impact.com to Drive Enterprise Partnership Growth in DACH",
@@ -28,11 +39,22 @@
       "imageUrl": "https://impact.com/wp-content/uploads/2026/03/travel-marketing-trends.webp"
     },
     {
-      "id": "cj_8187662",
+      "id": "cj_6597656",
       "title": "Plug into Growth with CJ's Ecommerce Plugins",
       "source": "CJ Affiliate",
       "date": "2026-03-16",
       "summary": "Brands are always looking for easy ways to expand their global reach and tap into opportunities. This is why we’ve partnered with top platforms such ... Innovation ,",
+      "url": "https://junction.cj.com/most-recent",
+      "category": "top",
+      "imageUrl": null,
+      "tags": []
+    },
+    {
+      "id": "cj_7559876",
+      "title": "New eGuide: 6 Growth Strategies Travel Marketers Need Now",
+      "source": "CJ Affiliate",
+      "date": "2026-03-13",
+      "summary": "Travel marketers have always had to stay nimble, but the pace of change in 2026 is something else entirely. Consumer behavior is shifting. AI is ... Travel , Content Commerce",
       "url": "https://junction.cj.com/most-recent",
       "category": "top",
       "imageUrl": null,
@@ -77,6 +99,17 @@
       "url": "https://impact.com/influencer/social-commerce-examples/",
       "category": "top",
       "imageUrl": "https://impact.com/wp-content/uploads/2026/03/social-commerce-2-1.webp"
+    },
+    {
+      "id": "cj_1556285",
+      "title": "CJ’s Commitment to Network Quality and Brand Protection",
+      "source": "CJ Affiliate",
+      "date": "2026-02-27",
+      "summary": "Trust, fairness, and mutual benefit are critical elements of the affiliate ecosystem, essential for the business to thrive. Publisher quality levels ... Network Quality ,",
+      "url": "https://junction.cj.com/most-recent",
+      "category": "top",
+      "imageUrl": null,
+      "tags": []
     },
     {
       "id": "0779c35d",

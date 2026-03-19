@@ -171,12 +171,14 @@ class RSSAggregator:
         except Exception as e:
             logger.error(f"❌ CJ Affiliate 抓取失败: {str(e)}")
         
-        # 去重（基于 URL）
-        seen_urls = set()
+        # 去重（基于 URL + 标题，避免相同 URL 但不同内容的文章被过滤）
+        seen_keys = set()
         unique_items = []
         for item in self.news_items:
-            if item['url'] not in seen_urls:
-                seen_urls.add(item['url'])
+            # 使用 URL + 标题作为唯一键
+            key = f"{item['url']}:{item['title']}"
+            if key not in seen_keys:
+                seen_keys.add(key)
                 unique_items.append(item)
         self.news_items = unique_items
         
