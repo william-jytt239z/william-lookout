@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { CATEGORIES, CategoryType } from './types/news';
-import { MOCK_NEWS } from './data/news';
+import { MOCK_NEWS } from './data/mockNews';
 import Navbar from './components/Navbar';
 import SearchBar from './components/SearchBar';
 import NewsCard from './components/NewsCard';
@@ -30,16 +30,10 @@ function App() {
   const regularNews = filteredNews.slice(1);
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] relative overflow-x-hidden">
-      {/* Background gradient effects */}
-      <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#ff6b35]/5 rounded-full blur-[150px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#ff6b35]/3 rounded-full blur-[120px]" />
-      </div>
-      
+    <div className="min-h-screen bg-[#0a0a0a] text-[#fafafa]">
       <Navbar activeTab={activeTab} onTabChange={setActiveTab} />
       
-      <main className="container mx-auto px-4 md:px-6 py-8 relative z-10">
+      <main className="container mx-auto px-4 md:px-6 py-8">
         {/* Hero Section */}
         <div className="mb-8">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-[#fafafa] mb-2 tracking-tight">
@@ -86,7 +80,7 @@ function App() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-[#1f1f1f] mt-20 relative z-10">
+      <footer className="border-t border-[#1f1f1f] mt-20">
         <div className="container mx-auto px-4 md:px-6 py-12">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-center md:text-left">

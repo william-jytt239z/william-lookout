@@ -7,12 +7,12 @@ interface NavbarProps {
 
 const Navbar = ({ activeTab, onTabChange }: NavbarProps) => {
   return (
-    <nav className="sticky top-0 z-50 w-full bg-[#0a0a0a]/90 border-b border-[#1f1f1f] backdrop-blur-xl">
+    <nav className="sticky top-0 z-50 w-full bg-[#0a0a0a]/95 border-b border-[#1f1f1f] backdrop-blur-md">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex h-16 md:h-20 items-center justify-between gap-4">
           {/* Logo */}
           <div className="flex items-center">
-            <h1 className="text-xl md:text-2xl font-heading font-bold tracking-tight text-[#fafafa] flex items-center gap-2 group cursor-pointer">
+            <h1 className="text-xl md:text-2xl font-heading font-bold tracking-tight text-[#fafafa] flex items-center gap-1 group cursor-pointer">
               <span>William</span>
               <span className="text-[#ff6b35] relative">
                 瞭望台
@@ -23,7 +23,7 @@ const Navbar = ({ activeTab, onTabChange }: NavbarProps) => {
 
           {/* Tabs */}
           <div className="flex-1 flex justify-end overflow-hidden">
-            <div className="flex items-center gap-1 md:gap-6 overflow-x-auto no-scrollbar scroll-smooth py-2">
+            <div className="flex items-center gap-1 md:gap-6 overflow-x-auto no-scrollbar scroll-smooth">
               {CATEGORIES.map((cat) => (
                 <button
                   key={cat.id}
@@ -36,7 +36,7 @@ const Navbar = ({ activeTab, onTabChange }: NavbarProps) => {
                 >
                   {cat.label}
                   {activeTab === cat.id && (
-                    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#ff6b35] rounded-full" />
+                    <span className="absolute bottom-0.5 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#ff6b35] rounded-full" />
                   )}
                 </button>
               ))}

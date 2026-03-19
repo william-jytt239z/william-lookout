@@ -5,6 +5,7 @@ export interface NewsItem {
   date: string;
   summary: string;
   url: string;
+  imageUrl?: string;
   category: 'breaking' | 'top' | 'ai' | 'market';
 }
 

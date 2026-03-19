@@ -10,6 +10,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '随着数字化转型的深入，品牌方在效果营销领域的投入持续增长。最新报告指出，合作伙伴营销已成为企业获取高质量流量的核心途径。',
     url: 'https://impact.com/press-releases/impact-com-hakan-ozal-dach-enterprise/',
     category: 'breaking',
+    imageUrl: '/placeholder-breaking-1.jpg'
   },
   {
     id: 'b2',
@@ -19,6 +20,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '联盟营销人员面临归因挑战，新的第一方数据解决方案正在成为行业标准。如何平衡用户隐私与营销效果是当前最大的课题。',
     url: 'https://impact.com/affiliate/affiliate-travel-marketing/',
     category: 'breaking',
+    imageUrl: '/placeholder-breaking-2.jpg'
   },
   {
     id: 'b3',
@@ -28,6 +30,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '越来越多的品牌开始按效果向影响者支付佣金，而非传统的一次性费用。这种模式正在改变创作者经济的运作方式。',
     url: 'https://impact.com/partnerships/affiliate-marketing-scams/',
     category: 'breaking',
+    imageUrl: '/placeholder-breaking-3.jpg'
   },
   {
     id: 'b4',
@@ -37,6 +40,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '亚马逊和沃尔玛等零售巨头的广告平台正在吸引大量效果类广告主，其转化率优势明显。',
     url: 'https://impact.com/influencer/social-commerce-examples/',
     category: 'breaking',
+    imageUrl: '/placeholder-breaking-4.jpg'
   },
   {
     id: 'b5',
@@ -46,6 +50,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '点击注入和虚假转化正在被更加智能的监测系统所拦截。新的技术标准正在提升整个行业的透明度。',
     url: 'https://impact.com/',
     category: 'breaking',
+    imageUrl: '/placeholder-breaking-5.jpg'
   },
   {
     id: 'b6',
@@ -55,9 +60,10 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: 'SaaS 企业发现合作伙伴推荐的客户留存率比直接搜索广告高出 30%。B2B 领域的伙伴营销正进入爆发期。',
     url: 'https://impact.com/affiliate/travel-affiliate-programs/',
     category: 'breaking',
+    imageUrl: '/placeholder-breaking-6.jpg'
   },
 
-  // 头部资讯 (top) - 真实 impact.com 链接
+  // 头部资讯 (top)
   {
     id: 't1',
     title: 'Hakan Özal Joins impact.com to Drive Enterprise Partnership Growth in DACH',
@@ -66,6 +72,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: 'Partnership marketing platform strengthens its approach in the German-speaking region, helping brands integrate cross-channel partnerships...',
     url: 'https://impact.com/press-releases/impact-com-hakan-ozal-dach-enterprise/',
     category: 'top',
+    imageUrl: '/placeholder-top-1.jpg'
   },
   {
     id: 't2',
@@ -75,6 +82,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: 'APAC travellers are turning to trusted recommendations more than advertising when making travel decisions...',
     url: 'https://impact.com/affiliate/affiliate-travel-marketing/',
     category: 'top',
+    imageUrl: '/placeholder-top-2.jpg'
   },
   {
     id: 't3',
@@ -84,6 +92,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: "Advertising's Not Dead, But the Balance is Shifting, Says David Yovanno...",
     url: 'https://impact.com/',
     category: 'top',
+    imageUrl: '/placeholder-top-3.jpg'
   },
   {
     id: 't4',
@@ -93,6 +102,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: 'Travel publishers drive more affiliate research traffic than almost any other content category...',
     url: 'https://impact.com/affiliate/travel-affiliate-programs/',
     category: 'top',
+    imageUrl: '/placeholder-top-4.jpg'
   },
   {
     id: 't5',
@@ -102,6 +112,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: 'Your affiliate marketing dashboards are lying to you. Sophisticated AI scams and attribution hijacking...',
     url: 'https://impact.com/partnerships/affiliate-marketing-scams/',
     category: 'top',
+    imageUrl: '/placeholder-top-5.jpg'
   },
   {
     id: 't6',
@@ -111,6 +122,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: 'Most brands treat social commerce as a content problem. These five examples show why the real lever...',
     url: 'https://impact.com/influencer/social-commerce-examples/',
     category: 'top',
+    imageUrl: '/placeholder-top-6.jpg'
   },
 
   // AI知识库 (ai)
@@ -122,6 +134,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '从个性化邮件主题到实时 Banner 图片，AI 正在将营销人员从繁琐的基础工作中解放出来，让他们更专注于策略与创意。',
     url: 'https://impact.com/',
     category: 'ai',
+    imageUrl: '/placeholder-ai-1.jpg'
   },
   {
     id: 'a2',
@@ -131,6 +144,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '探索如何将大语言模型集成到官网客服系统中，通过自然语言对话解答用户疑问，实现 24/7 的自动化转化。',
     url: 'https://impact.com/',
     category: 'ai',
+    imageUrl: '/placeholder-ai-2.jpg'
   },
   {
     id: 'a3',
@@ -140,6 +154,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '通过历史数据和实时信号，机器学习模型可以准确预测哪些点击最有可能转化，帮助营销人员提前调整资源分配。',
     url: 'https://impact.com/',
     category: 'ai',
+    imageUrl: '/placeholder-ai-3.jpg'
   },
   {
     id: 'a4',
@@ -149,6 +164,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '自动剪辑、智能配音、实时生成多版本视频内容，AI 正在帮助品牌高效生产 TikTok 和 Reels 上的爆款素材。',
     url: 'https://impact.com/',
     category: 'ai',
+    imageUrl: '/placeholder-ai-4.jpg'
   },
   {
     id: 'a5',
@@ -158,6 +174,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '从 SEO 优化到视频内容生成，这些精选的 AI 工具将显著提升你的工作效率，让效果营销工作变得事半功倍。',
     url: 'https://impact.com/',
     category: 'ai',
+    imageUrl: '/placeholder-ai-5.jpg'
   },
   {
     id: 'a6',
@@ -167,6 +184,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '当算法决策越来越复杂，如何确保营销效果归因的公平性？本文探讨 AI 透明原则与商业利益之间的平衡。',
     url: 'https://impact.com/',
     category: 'ai',
+    imageUrl: '/placeholder-ai-6.jpg'
   },
 
   // 出海行情 (market)
@@ -178,6 +196,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: 'Temu, SHEIN 和 TikTok Shop 等应用正在改变欧美消费者的购物习惯，全托管模式正在改变跨境电商的游戏规则。',
     url: 'https://impact.com/',
     category: 'market',
+    imageUrl: '/placeholder-market-1.jpg'
   },
   {
     id: 'm2',
@@ -187,6 +206,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '沙特和阿联酋市场消费力强劲，但本地化支付偏好和宗教文化合规仍是出海企业需要重点关注的问题。',
     url: 'https://impact.com/',
     category: 'market',
+    imageUrl: '/placeholder-market-2.jpg'
   },
   {
     id: 'm3',
@@ -196,6 +216,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '短剧应用在北美和欧洲市场迅速崛起，通过精准的内容投放和创新的变现模式，中国内容产业正在开辟新蓝海。',
     url: 'https://impact.com/',
     category: 'market',
+    imageUrl: '/placeholder-market-3.jpg'
   },
   {
     id: 'm4',
@@ -205,6 +226,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '庞大的人口基数和年轻化趋势让东南亚成为全球品牌必争之地，社交媒体驱动的消费习惯正在重塑电商格局。',
     url: 'https://impact.com/',
     category: 'market',
+    imageUrl: '/placeholder-market-4.jpg'
   },
   {
     id: 'm5',
@@ -214,6 +236,7 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '随着物流基础设施完善，墨西哥已成为中国企业进军拉美市场的桥头堡，电商和金融科技是热门赛道。',
     url: 'https://impact.com/',
     category: 'market',
+    imageUrl: '/placeholder-market-5.jpg'
   },
   {
     id: 'm6',
@@ -223,5 +246,6 @@ export const MOCK_NEWS: NewsItem[] = [
     summary: '随着监管框架的加强，出海企业需要高度重视用户数据隐私和合规，违反 GDPR 等法规的处罚力度正在加大。',
     url: 'https://impact.com/',
     category: 'market',
+    imageUrl: '/placeholder-market-6.jpg'
   },
 ];

@@ -17,7 +17,7 @@ const SearchBar = ({ placeholder, value, onChange }: SearchBarProps) => {
         placeholder={placeholder}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full bg-[#141414] border border-[#2a2a2a] hover:border-[#ff6b35]/30 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35]/30 text-[#fafafa] pl-12 pr-4 h-14 rounded-xl transition-all duration-300 text-base md:text-lg font-sans outline-none placeholder:text-[#666666]"
+        className="w-full bg-[#141414] border border-[#2a2a2a] hover:border-[#ff6b35]/30 focus:border-[#ff6b35] focus:ring-1 focus:ring-[#ff6b35]/30 text-[#fafafa] pl-12 pr-4 h-14 rounded-xl transition-all duration-300 text-base md:text-lg outline-none placeholder:text-[#666666]"
       />
       {/* Glow effect on focus */}
       <div className="absolute inset-0 rounded-xl bg-[#ff6b35]/5 opacity-0 group-focus-within:opacity-100 transition-opacity duration-300 pointer-events-none" />
