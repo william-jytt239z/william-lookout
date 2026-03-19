@@ -7,7 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        sans: ['Instrument Sans', 'sans-serif'],
+        sans: ['Instrument Sans', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
         heading: ['Space Grotesk', 'sans-serif'],
       },
       colors: {

@@ -30,16 +30,22 @@ function App() {
   const regularNews = filteredNews.slice(1);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-[#0a0a0a] relative overflow-x-hidden">
+      {/* Background gradient effects */}
+      <div className="fixed inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-[#ff6b35]/5 rounded-full blur-[150px]" />
+        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-[#ff6b35]/3 rounded-full blur-[120px]" />
+      </div>
+      
       <Navbar activeTab={activeTab} onTabChange={setActiveTab} />
       
-      <main className="container mx-auto px-4 md:px-6 py-8">
+      <main className="container mx-auto px-4 md:px-6 py-8 relative z-10">
         {/* Hero Section */}
         <div className="mb-8">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-foreground mb-2">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-bold text-[#fafafa] mb-2 tracking-tight">
             {currentCategory.label}
           </h2>
-          <p className="text-xl md:text-2xl text-muted font-heading">
+          <p className="text-xl md:text-2xl text-[#888888] font-heading">
             {activeTab === 'breaking' && '把握行业脉动'}
             {activeTab === 'top' && '洞察头部动态'}
             {activeTab === 'ai' && '探索AI前沿'}
@@ -73,25 +79,25 @@ function App() {
           </div>
         ) : (
           <div className="text-center py-20">
-            <p className="text-muted text-xl">没有找到相关新闻</p>
-            <p className="text-muted/60 mt-2">请尝试其他关键词</p>
+            <p className="text-[#888888] text-xl">没有找到相关新闻</p>
+            <p className="text-[#888888]/60 mt-2">请尝试其他关键词</p>
           </div>
         )}
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border/50 mt-20">
+      <footer className="border-t border-[#1f1f1f] mt-20 relative z-10">
         <div className="container mx-auto px-4 md:px-6 py-12">
           <div className="flex flex-col md:flex-row justify-between items-center gap-6">
             <div className="text-center md:text-left">
-              <h3 className="text-2xl font-heading font-bold text-foreground mb-2">
+              <h3 className="text-2xl font-heading font-bold text-[#fafafa] mb-2">
                 William 瞭望台
               </h3>
-              <p className="text-muted max-w-md">
+              <p className="text-[#888888] max-w-md">
                 深耕 Performance Marketing 行业，为您带来最有价值的新闻聚合与见解分享。
               </p>
             </div>
-            <div className="text-muted text-sm">
+            <div className="text-[#888888] text-sm">
               © 2026 William Observatory. Built for Marketing Professionals.
             </div>
           </div>
