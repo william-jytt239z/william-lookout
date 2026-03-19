@@ -1,0 +1,42 @@
+name: Update News Data
+
+on:
+  schedule:
+    # 每天上午 9 点运行 (UTC 时间 1:00)
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+jobs:
+  update-news:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.11'
+        
+    - name: Install dependencies
+      run: |
+        cd backend
+        pip install -r requirements.txt
+        
+    - name: Run RSS aggregator
+      run: |
+        cd backend
+        python aggregator.py
+        
+    - name: Copy data to frontend
+      run: |
+        cp backend/data/top-news.json frontend/public/data/
+        
+    - name: Commit and push changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add frontend/public/data/
+        git commit -m "Auto-update news data: $(date +%Y-%m-%d)" || exit 0
+        git push
