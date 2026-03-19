@@ -1,20 +1,30 @@
 #!/usr/bin/env python3
 """
-William 瞭望台 - RSS 聚合器
-抓取多个头部平台的 RSS，提取真实图片，生成 JSON 数据
+William 瞭望台 - RSS/网页聚合器
+抓取多个头部平台的 RSS 或网页，提取真实图片
 """
 
 import json
 import feedparser
 import hashlib
 import re
+import ssl
 from datetime import datetime
 from pathlib import Path
 from typing import List, Dict, Optional
+from html import unescape
 import logging
+import sys
+
+# 添加 backend 目录到路径
+sys.path.insert(0, str(Path(__file__).parent))
+from cj_scraper import CJScraper
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+
+# 禁用 SSL 验证
+ssl._create_default_https_context = ssl._create_unverified_context
 
 # RSS 源配置
 RSS_SOURCES = {
@@ -22,27 +32,23 @@ RSS_SOURCES = {
         'url': 'https://impact.com/feed/',
         'name': 'impact.com',
         'category': 'top'
-    },
-    'CJ Junction': {
-        'url': 'https://junction.cj.com/rss.xml',
+    }
+}
+
+# 网页抓取配置（RSS 失效时使用）
+WEB_SOURCES = {
+    'CJ Affiliate': {
+        'url': 'https://www.cj.com/affiliate-news',
         'name': 'CJ',
         'category': 'top',
-        'fallback': 'https://junction.cj.com/feed/'
-    },
-    'Awin': {
-        'url': 'https://www.awin.com/blog/rss',
-        'name': 'Awin',
-        'category': 'top'
-    },
-    'Rakuten': {
-        'url': 'https://rakutenadvertising.com/blog/feed/',
-        'name': 'Rakuten',
-        'category': 'top'
-    },
-    'PartnerBoost': {
-        'url': 'https://partnerboost.com/feed/',
-        'name': 'PartnerBoost',
-        'category': 'top'
+        'selectors': {
+            'article': 'article, .blog-post, .news-item',
+            'title': 'h2, h3, .title',
+            'link': 'a',
+            'summary': 'p, .excerpt',
+            'date': 'time, .date',
+            'image': 'img'
+        }
     }
 }
 
@@ -66,12 +72,14 @@ class RSSAggregator:
         return datetime.now().strftime('%Y-%m-%d')
     
     def clean_html(self, html: str) -> str:
-        text = re.sub(r'<[^>]+>', '', html)
+        if not html:
+            return ''
+        text = unescape(html)
+        text = re.sub(r'<[^>]+>', '', text)
         text = re.sub(r'\s+', ' ', text).strip()
         return text[:200] + '...' if len(text) > 200 else text
     
     def extract_image(self, entry: Dict) -> Optional[str]:
-        """从 RSS entry 中提取图片 URL"""
         # 方法 1: RSS 的 media:content
         if 'media_content' in entry and entry['media_content']:
             for media in entry['media_content']:
@@ -82,83 +90,106 @@ class RSSAggregator:
         if 'media_thumbnail' in entry and entry['media_thumbnail']:
             return entry['media_thumbnail'][0].get('url')
         
-        # 方法 3: 从 summary/content 中提取 <img>
-        content = entry.get('summary', '') or entry.get('description', '') or entry.get('content', [{}])[0].get('value', '')
+        # 方法 3: 从内容中提取 <img>
+        content = entry.get('summary', '') or entry.get('description', '') or ''
+        if isinstance(entry.get('content'), list) and len(entry['content']) > 0:
+            content = entry['content'][0].get('value', '') + content
+        
         if content:
-            # 查找 <img src="...">
             img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content, re.IGNORECASE)
             if img_match:
                 url = img_match.group(1)
-                # 确保是绝对 URL
                 if url.startswith('http'):
                     return url
-        
-        # 方法 4: 从 enclosures 中提取
-        if 'enclosures' in entry and entry['enclosures']:
-            for enc in entry['enclosures']:
-                if enc.get('type', '').startswith('image/'):
-                    return enc.get('href')
+                if url.startswith('//'):
+                    return 'https:' + url
         
         return None
     
     def fetch_feed(self, source_name: str, config: Dict) -> List[Dict]:
         items = []
-        urls_to_try = [config['url']]
-        if 'fallback' in config:
-            urls_to_try.append(config['fallback'])
         
-        for url in urls_to_try:
-            try:
-                logger.info(f"抓取 {source_name}: {url}")
-                feed = feedparser.parse(url)
+        try:
+            logger.info(f"抓取 {source_name}: {config['url']}")
+            
+            feed = feedparser.parse(config['url'], 
+                request_headers={
+                    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+                })
+            
+            if not feed.entries:
+                logger.warning(f"{source_name}: 没有获取到任何条目")
+                return items
+            
+            for entry in feed.entries[:10]:  # 每个源取前10条
+                image_url = self.extract_image(entry)
                 
-                if feed.bozo:
-                    logger.warning(f"{source_name} 解析警告: {feed.bozo_exception}")
+                title = self.clean_html(entry.get('title', ''))
+                summary = self.clean_html(entry.get('summary', '') or entry.get('description', ''))
                 
-                for entry in feed.entries[:5]:  # 每个源取前5条
-                    # 提取图片
-                    image_url = self.extract_image(entry)
-                    
-                    news_item = {
-                        'id': self.generate_id(entry.get('title', ''), source_name),
-                        'title': entry.get('title', ''),
-                        'source': config['name'],
-                        'date': self.parse_date(entry.get('published_parsed') or entry.get('updated_parsed')),
-                        'summary': self.clean_html(entry.get('summary', '') or entry.get('description', '')),
-                        'url': entry.get('link', ''),
-                        'category': config['category'],
-                        'imageUrl': image_url  # 可能为 None
-                    }
-                    items.append(news_item)
-                    
-                    if image_url:
-                        logger.info(f"  ✅ 找到图片: {image_url[:60]}...")
-                    else:
-                        logger.info(f"  ⚠️ 无图片")
+                if not title:
+                    continue
                 
-                if items:
-                    logger.info(f"✅ {source_name}: 成功抓取 {len(items)} 条")
-                    return items
+                items.append({
+                    'id': self.generate_id(title, source_name),
+                    'title': title,
+                    'source': config['name'],
+                    'date': self.parse_date(entry.get('published_parsed') or entry.get('updated_parsed')),
+                    'summary': summary or title,
+                    'url': entry.get('link', ''),
+                    'category': config['category'],
+                    'imageUrl': image_url
+                })
+                
+                if image_url:
+                    logger.info(f"  ✅ {title[:40]}... (有图片)")
+                else:
+                    logger.info(f"  ⚠️ {title[:40]}... (无图片)")
+            
+            logger.info(f"✅ {source_name}: 成功抓取 {len(items)} 条")
                     
-            except Exception as e:
-                logger.error(f"❌ {source_name} 失败 ({url}): {str(e)}")
-                continue
+        except Exception as e:
+            logger.error(f"❌ {source_name} 失败: {str(e)}")
         
         return items
     
     def aggregate(self):
         logger.info("🚀 开始 RSS 聚合...")
         
+        # 抓取 RSS 源
         for source_name, config in RSS_SOURCES.items():
             items = self.fetch_feed(source_name, config)
             self.news_items.extend(items)
         
-        # 按日期排序（最新的在前）
+        # 抓取 CJ Affiliate (Playwright)
+        logger.info("🕷️  开始抓取 CJ Affiliate...")
+        try:
+            cj_scraper = CJScraper()
+            cj_items = cj_scraper.scrape()
+            self.news_items.extend(cj_items)
+            logger.info(f"✅ CJ Affiliate: 成功添加 {len(cj_items)} 条")
+        except Exception as e:
+            logger.error(f"❌ CJ Affiliate 抓取失败: {str(e)}")
+        
+        # 去重（基于 URL）
+        seen_urls = set()
+        unique_items = []
+        for item in self.news_items:
+            if item['url'] not in seen_urls:
+                seen_urls.add(item['url'])
+                unique_items.append(item)
+        self.news_items = unique_items
+        
+        # 按日期排序
         self.news_items.sort(key=lambda x: x['date'], reverse=True)
         
         # 统计
         with_images = sum(1 for item in self.news_items if item['imageUrl'])
-        logger.info(f"📊 共聚合 {len(self.news_items)} 条新闻，其中 {with_images} 条有图片")
+        cj_count = sum(1 for item in self.news_items if item['source'] == 'CJ Affiliate')
+        logger.info(f"📊 共聚合 {len(self.news_items)} 条新闻（去重后）")
+        logger.info(f"   - impact.com: {len(self.news_items) - cj_count} 条")
+        logger.info(f"   - CJ Affiliate: {cj_count} 条")
+        logger.info(f"   - 有图片: {with_images} 条")
     
     def save_json(self, filename: str = 'top-news.json'):
         output_path = self.output_dir / filename
@@ -167,6 +198,7 @@ class RSSAggregator:
             'updated_at': datetime.now().isoformat(),
             'total': len(self.news_items),
             'with_images': sum(1 for item in self.news_items if item['imageUrl']),
+            'sources': list(set(item['source'] for item in self.news_items)),
             'items': self.news_items
         }
         
